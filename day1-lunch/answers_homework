@@ -6,9 +6,9 @@ Analysis complete for SRR072893.fastq
 4. 	samtools view -b5 output.que3qcreport.SAM > que3qcreport.BAM
 
 	samtools sort que3qcreport.BAM out.que3qcreport
-	smalls index out.que3qcreport.BAM
+	samtools index out.que3qcreport.BAM ##makes the data analysis work more efficiently and faster by neatly 
 
-5.	stringtie out.que3qcreport.BAM -p 4 -e -G /Users/cmdb/qbb2015/genomes/BDGP6.Ensembl.81.gtf -o stringoutput -B
+5.	stringtie out.que3qcreport.BAM (sorted file) -p 4 -e -G /Users/cmdb/qbb2015/genomes/BDGP6.Ensembl.81.gtf -o stringoutput -B
 
 6.  
 #!/bin/bash
