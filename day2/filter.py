@@ -15,7 +15,26 @@ f = open( filename )
     #if "tRNA" in data:
     #    print data, 
     
-for data in f :
-    fields = data.split()
-    if "tRNA" in fields[9]:
+#for data in f :
+#    fields = data.split()
+#    if "tRNA" in fields[9]:
+#        print data,##
+
+#line_count= 0
+#for data in f:
+#    if line_count <= 10:
+ #       pass
+#    elif line_count < 15:
+#        print data,
+#    else:
+#        break ##stop doing scanning
+#    line_count += 1
+    
+for line_count, data in enumerate(f):
+    if line_count <= 10:
+        pass
+    elif line_count < 15:
         print data,
+    else:
+        break ##stop doing scanning
+    line_count += 1
