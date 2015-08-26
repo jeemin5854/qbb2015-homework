@@ -17,7 +17,7 @@ for item in df893["FPKM"]:
 
 
 plt.figure()
-plt.hist(df)
+plt.hist(df, color = 'blue', bins =100)
 plt.title("ln(FPKM) of SRR072893")
 plt.xlabel("Value")
 plt.ylabel("ln(FPKM)")
