@@ -2,8 +2,6 @@
 
 import pandas as pd
 import matplotlib.pyplot as plt
-from numpy.lib.scimath import logn
-from math import e
 import numpy as np
 
 
@@ -14,29 +12,23 @@ FemSxl = []
 MaleSxl =[]
 for sample in metadata[metadata["sex"]== "female"]["sample"]:
     df = pd.read_table("~/qbb2015/stringtie/" + sample + "/t_data.ctab")
-    roi = df["t_name"].str.contains("FBtr0331261") 
-    FemSxl.append(df[roi]["FPKM"].values)
+    #roi = df["t_name"].str.contains("FBtr0331261") 	-too little data comes out by filtering
+    FemSxl.append(df["FPKM"].values)
 for sample in metadata[metadata["sex"]== "male"]["sample"]:
     df = pd.read_table("~/qbb2015/stringtie/" + sample + "/t_data.ctab")
-    roi = df["t_name"].str.contains("FBtr0331261") 
-    MaleSxl.append(df[roi]["FPKM"].values)
+    #roi = df["t_name"].str.contains("FBtr0331261") 	-too little data comes out by this filtering
+    MaleSxl.append(df["FPKM"].values)
 
-#Errormessage:
-M =[]
-for i in (0,len(FemSxl)):
-    M.append(logn(2, FemSxl[i]) - logn(2, MaleSxl[i]))
-    
-"""   
-A = []
-for i in len(MaleSxl):
-    A.append(0.5 * logn(2, FemSxl[i]) + (0.5 * logn(2, MaleSxl)[i])
-    
+print len(FemSxl)
+print len(MaleSxl)
 
+    
+M = np.log2(FemSxl) - np.log2(MaleSxl)
+A = 0.5 * (np.log2(FemSxl) + np.log2(MaleSxl))
 
 plt.figure()
-plt.plot(M,A)
+plt.scatter(A, M)
 plt.xlabel("A")
 plt.ylabel("M")
 plt.title("Norm of FPKM values: Male vs. Female")
 plt.savefig("plot4.png")
-"""
