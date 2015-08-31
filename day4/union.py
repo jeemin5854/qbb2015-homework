@@ -17,9 +17,9 @@ ctcf = arr.copy()
 beaf = arr.copy()
 su = arr.copy()
 
-ctcf.set_bits_from_file( sys.argv[2] )
-beaf.set_bits_from_file( sys.argv[3] )
-su.set_bits_from_file( sys.argv[4])
+ctcf2=ctcf.set_bits_from_file( sys.argv[2] )
+beaf2=beaf.set_bits_from_file( sys.argv[3] )
+su2 =su.set_bits_from_file( sys.argv[4])
 
 #union of two circles
 U_CTCF_BEAF = beaf.intersect( ctcf)
@@ -27,13 +27,41 @@ U_BEAF_SU = su.intersect( beaf )
 U_SU_CTCF = ctcf.intersect( su )
 
 #How to go from ChromosomeLocationBitrrays( dicts=rval to numbers???
-three_overlap = ctcf.intersect(U_BEAF_SU) 
-CTCF_only = ctcf  + U_CTCF_BEAF - U_SU_CTCF + beaf.complement
-BEAF_only = beaf - (U_BEAF_SU + U_CTCF_BEAF - su.complement)
-CTCF_BEAF_overlap = U_CTCF_BEAF - su.complement
-SU_only = su - (U_SU_CTCF + U_BEAF_SU - ctcf.complement)
-CTCF_SU_overlap = U_SU_CTCF - beaf.complement
-BEAF_SU_overlap = U_BEAF_SU - ctcf.complement
+
+three_overlap = 0 #ctcf.intersect(U_BEAF_SU) 
+CTCF_only = 0 #ctcf  + U_CTCF_BEAF - U_SU_CTCF + beaf.complement
+BEAF_only = 0 #beaf - (U_BEAF_SU + U_CTCF_BEAF - su.complement)
+CTCF_BEAF_overlap = 0 #U_CTCF_BEAF - su.complement
+SU_only = 0 #su - (U_SU_CTCF + U_BEAF_SU - ctcf.complement)
+CTCF_SU_overlap = 0 #U_SU_CTCF - beaf.complement
+BEAF_SU_overlap = 0 #U_BEAF_SU - ctcf.complement
+
+
+for filename in sys.argv[2:]:
+    for line in open(filename):
+        field = line.split()
+        chrom = field[0]
+        startpos = int (field[1])
+        endpos = int ( field[2])
+        C = ctcf2[chrom][start:end]
+        B = beaf2[chrom][start:end]
+        S = su2[chrom][start:end]
+        if C.any() == True and B.any()==False and S.any()==False:
+            CTCF_only += 1 
+        elif B.any()==True and C.any() == False and S.any()==False:
+            BEAF_only += 1 
+        elif S.any()==True and B.any()==False and C.any() == False:
+            SU_only += 1 
+        elif C.any() == True and B.any()==True and S.any()==False:
+            CTCF_BEAF_overlap += 1
+        elif C.any() == True and S.any()==True and B.any()==False: 
+            CTCF_SU_overlap += 1 
+        elif B.any()==True and S.any() == True and C.any()==False:
+            count_aBC += 1 
+        else: 
+            count_ABC += 1
+        total += 1
+        
 
 s = (
     CTCF_only,    # Abc
